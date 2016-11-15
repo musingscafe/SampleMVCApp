@@ -1,5 +1,6 @@
 package com.sampleapp.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,16 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
+    @Autowired
+    RequestSender requestSender;
+
     @RequestMapping(value="/sendDataUsingThreadPool", method={RequestMethod.GET, RequestMethod.POST})
     public String sendDataUsingThreadPool() {
-
-        return "welcome";
+            requestSender.sendData();
+        return "Success";
     }
 
     @RequestMapping(value="/sendData", method={RequestMethod.GET, RequestMethod.POST})
     public String sendDataUsingThread() {
-
-        return "welcome";
+        requestSender.sendData();
+        return "Success";
     }
 
 }
