@@ -1,4 +1,4 @@
-package main.java.com.sampleapp.config;
+package com.sampleapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "main.java.com.samplemvc")
+@ComponentScan(basePackages = "com.sampleapp")
 public class ApplicationConfig extends WebMvcConfigurerAdapter {
     @Bean
     public ViewResolver viewResolver() {

@@ -1,4 +1,4 @@
-package main.java.com.sampleapp.config;
+package com.sampleapp.config;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
