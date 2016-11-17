@@ -1,24 +1,24 @@
 package com.sampleapp.controllers;
 
+import java.util.concurrent.Future;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
-import org.springframework.stereotype.Component;
-
-import java.util.concurrent.Future;
 
 
 /**
  * Created by nrsharma on 15/11/16.
  */
-@Component
-public class RequestSender {
+public class RequestSender implements Runnable{
 
-    private String SERVER_URL= "http://amit-mac:8000/rest";
+    private String SERVER_URL= "http://localhost:8000/rest";
+    int numOfRequest = 1;
 
-    public void sendData(){
-        CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault();
+	@Override
+	public void run() {
+		CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault();
         try {
             // Start the client
             httpclient.start();
@@ -29,7 +29,8 @@ public class RequestSender {
             Future<HttpResponse> future = httpclient.execute(request1, null);
             // and wait until a response is received
             HttpResponse response1 = future.get();
-            System.out.println(request1.getRequestLine() + "->" + response1.getStatusLine());
+            System.out.println("Request num : " + numOfRequest + " " +request1.getRequestLine() + "->" + response1.getStatusLine());
+            numOfRequest ++;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -39,6 +40,7 @@ public class RequestSender {
                 e.printStackTrace();
             }
         }
-    }
+		
+	}
 
 }

@@ -1,6 +1,8 @@
 package com.sampleapp.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,19 +14,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
-    @Autowired
-    RequestSender requestSender;
+    final ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @RequestMapping(value="/sendDataUsingThreadPool", method={RequestMethod.GET, RequestMethod.POST})
     public String sendDataUsingThreadPool() {
-            requestSender.sendData();
+    	forwardRequestWithThreadPool();
         return "Success";
     }
 
     @RequestMapping(value="/sendData", method={RequestMethod.GET, RequestMethod.POST})
     public String sendDataUsingThread() {
-        requestSender.sendData();
+    	forwardRequest();
         return "Success";
+    }
+    
+    private void forwardRequestWithThreadPool(){
+    	executorService.execute(new RequestSender());
+    }
+    
+    private void forwardRequest(){
+    	new RequestSender().run();
     }
 
 }
